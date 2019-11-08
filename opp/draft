@@ -1,0 +1,56 @@
+Title: 
+Control and conformance through obligatory passage points
+
+
+Abstract:
+15 years ago a group of sociologists looked at successful open source projects and wondered what could be _read off_ the 
+
+A central consideration in managing a successful technical project is to ensure the consistency and quality of the technological artifact under 
+
+production. A means to achieve this, is to look at common problems through the lens of Actor—Network theory (ANT), 
+
+
+
+A socio-technical organization must be made in order to give rise to a structure that vets both developer and the code which is produced. This talk concerns the technical elements of this structure, and the extent to which they can become obligatory passage points—a narrowing of the structure that the developer must navigate in order to produce. I show what these elements are, and how they are used.
+
+Outline:
+- What is OPP
+- How can it be applied
+- Why should we apply it
+
+
+What is OPP:
+Discuss what it is, and the ANT details that make it interesting.
+
+How can it be applied to code:
+Mainly three ways: API, Plugins, Protocol
+
+Why
+- logic argument first
+- then the descriptive part from software archeology
+
+
+Talk:
+15 years ago, a group of sociologists looked at successful open source software projects that were accessible and cherished openness, and asked the following question: if you look at the source code over time, [finn ut hva spørsmålet er]. The answer was clear cut yes—there was ample evidence of rigidity and closedness. And we know one of the projects very well, here in SIB—python.
+
+
+
+
+So, in my talk i want to [discuss obligatory passage] points. We all intuitively know what these are—they are hoops [show dog jumping through hoop]. Hoops we developers, stakeholders, et. al., needs to jump through in order to get something done.
+
+We have many examples of these hoops in our day-to-day lives when creating software. Code review, issue tracking, product owner (unless you are one), developers (unless you are the only one), etc. More technical ones are source control management, continuous integration (CI), the compiler/interpreter, even programming units like variables, methods, classes, etc. We rarely think about these in terms of what they really are—or at least I don't; they are ways in which we apply control to our artifact, and make various stages in the projects life cycle conform to some set of requirements.
+
+In Actor–network theory (ANT), all these hoops would be known as Obligatory Passage Points. Looking at a software development through the lens of ANT, everything from the artifact under production, to the customer itself, is an actor. And there is nothing comprising the network, … clarify?
+
+Examples of these are social ones, like code review and issues tracking [github screenshots?]. It could also be people—some person you need to talk to in order to do something. Other examples, from the technical realm, are unit testing, CI, proper use of software units—classes, modules, packages, or the use of design patterns, etc. And you code will have to conform to the constraints of syntax and be version controlled.
+
+
+The term obligatory passage point is lent from [Actor-Network Theory (ANT)]. When reasoning about e.g. a software development project in ANT, there's a couple of points that are important:
+ - [The network is all there is]. (sett inn det fra de Souza)
+ - [Anything can and must be an actor] (sett inn fra de Souza)
+ - konklusjon fra de Souza?
+
+So, with this in mind, how often do we consider the code to be an instrument of control and conformance?
+
+
+
