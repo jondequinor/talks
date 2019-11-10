@@ -9,14 +9,180 @@ A central consideration in managing a successful technical project is to ensure 
 
 production. A means to achieve this, is to look at common problems through the lens of Actor—Network theory (ANT), 
 
+Committed abstract:
 
+15  years  ago  a  group  of  sociologists  looked  at  successful  open  source  projects
+and wondered what could be
+read off
+the source code.  Though the rhetoric of
+these  open  source  projects  were  about  openness  and  access,  the  source  codes
+told stories about closedness and regulation.
+In my talk, I look at the group’s discussion of the
+obligatory passage point
+, and
+how  it  may  produce  control  and  conformance  of  socio-technical  norms  in  our
+own technical projects
 
 A socio-technical organization must be made in order to give rise to a structure that vets both developer and the code which is produced. This talk concerns the technical elements of this structure, and the extent to which they can become obligatory passage points—a narrowing of the structure that the developer must navigate in order to produce. I show what these elements are, and how they are used.
 
 Outline:
-- What is OPP
-- How can it be applied
-- Why should we apply it
+- Some design decisions for some patterns are hard to make
+- In successful open source projects, these patterns emerged
+-  
+
+"wildly irresponsible it is, to have allowed it to go so far out of your control, that you don't know what it's going to do when you change a line of code"
+
+-------------
+Imagine that you are tasked with fixing a bug. It requires you to change a piece of code that has rotted. And by rotted I mean that nobody has done anything to make it better in a long time. And every time someone changed it, they did the least amount of edits that they had to. The code has no tests, and you're certain that changing it, will break something over _here_. I think this is a common problem for a lot of software development projects.
+
+However, Uncle Bob Martin, _the_ software craftsman, says this is wildly irresponsible. To have allowed this code to go so far out of your control, that you don't know what it's going to do when you change it.
+
+So, how do we take back control? We refactor. And we add tests. But in some cases, refactoring and tests isn't enough. What if the reason for the code's rot, is that it is being used in ways that you never originally intended? Maybe it is part of an API that leaked too much abstraction? In other words a misbehaving API. You cannot simply move a couple of methods, or split some classes in order to fix that. In these cases, the API has to fundamentally change, right?
+
+It has to. Any software craftsman or craftswoman should constantly improve their creations. In this case it means API breakage.
+
+So, a major shift of control away from the API consumer has to take place, and they need to conform to a new, more restrictive set of rules of this new, improved API.
+
+How do you justify that to your API consumers? That's not always easy. They might view it as a waste of their time. They have to change in order for you to improve your creation.
+
+I want to talk about some ideas that might help us in doing the right thing in these situations.
+
+The first idea comes from a 20 year old sociology paper. The group of sociologists looked at successful open source software projects, one of them Python. And asked themselves: what can we tell about the way these open source developers work, by simply looking at the code?
+
+And they found that, even though the narrative of these projects usually are about openness and access—the code is nothing but closedness and regulation. The source code not only reflected their process, but constrained it. The source code partitioned and managed activities by the use of components, modules, but also higher order concepts like plugins and event driven programming.
+
+And the group found that these structures were emergent. Meaning that it was not structures formally created in these projects.
+
+The sociologists discussed this, and 
+
+
+--------------
+Let us travel back in time, 20 years. Imagine you are responsible for introducing continuous integration in your organization. Almost nobody knows what it is. And integration currently takes a long time, weeks maybe months. You're now telling the organization that it should integrate multiple times a day using automated jobs. Oh and to add unit test and that they should pass with each integration. So you introduce this norm into the organization: "development branches should integrate frequently with a shared state, cleanly, with unit tests passing." And then you create a CI system that controls integration and forces everyone to conform. 
+
+This is is a shift of control away from the individual development teams, to the CI system. And conformance of the norm is now required to integrate—in essence, to do any actual software development.
+
+The CI system is an example of the Obligatory Passage Point. 
+
+
+Back to the present. We now know CI is integral to making integration a non-event. During the interview to get the job you are asked about CI. So this [the norm] is a good, socio-technical norm, and a CI produces control and conformance of it. 
+
+We, as software craftsmen and craftswomen, make small shifts in control all the time. It might not always be shifts in the control held by people, but rather code. Imagine doing refactoring, and you see that two objects A and B know too much about each other. Fixing this requires to have A be more knowledgble 
+
+
+
+-------------
+Imagine that you are the author of a library to be used by some other development team in your organization. The purpose of the library is to provide an API to allow manipulation of—let's say— a cloud service on which your organization depends. You think that it is a good idea to allow the cloud service provider to vary—even though your library, from the perspective of the other team, does not.
+
+There are many ways to do this, let's say you create an a Doman-Specific Language (DSL). This will impose measures of control and conformance on the other development team, both socially and technically:
+
+To use or change this library, they have to communicate with you, and to actually use the cloud provider service, they need to call your code. So they have to accept these terms, as well as the way the DSL is designed.
+
+This is not trivial to do. Why? Because first you must convince yourself and your team that this is the right thing to do. And then you have to convince the other team, that this is the right way to go. And then you have to actually implement the thing, so that it works as promised. The other team is waiting, the whole organization is waiting on this library.
+
+So, how do we justify imposing control and conformance on each other, when there might be a quicker and easier way to do it—without the introduction of any such measures? In other words, I could just create a 1000 lines python script that did the trick. This is the problem I want to talk about.
+
+I will talk about n arguments for taking the more closed and regulated route:
+
+0. The Obligatory Passage Point
+
+15 years ago, sociologists took a bunch of successful open source projects, and looked closely at the source code of each project. Though the narrative of these projects were about openness and access for the contributing developers, the actual code was all about closedness and regulation. The sociologists weren't surprised, because they had seen it many times before. 
+
+1. The programmers fifth oath
+ -- I will fearlessly and relentlessly improve my creations at every opportunity. I will never degrade them.
+ 
+So what would happen if you took the quick and easy approach to library development, and created code that had leaky abstractions, and you organization then changes the cloud service provider? The library degrades. Fear of imposing too much hassle on the other team now made the entire library useless to them.
+
+You should never fear protecting your code against predictable points of variation.
+
+2. It is uncontroversial to impose control and conformance on each other
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------
+15 years ago, a group of sociologists looked at successful, open source software projects, and wondered what they could find if they dug deep into the source code. They found that though the narrative of such open source projects may be about openness and access, the practice in the source code of these projects, is about closedness; control and conformance.
+
+
+
+I want to talk about how hard it might be, as software craftsmen and women, to introduce measures of control and conformance on each other. And I want to talk about an interesting idea from sociology that might make it easier.
+
+By socio-technical norms I mean the rules and requirements that we apply to the social and technical aspects of software development. Take for instance, the rule that "our code should cleanly integrate". The organization make teams conform to this, by requiring some continuous integration job to successfully run on our branch of code, before it is integrated into the mainline. 
+
+As craftsmen and craftswomen, we should try to fearlessly and relentlessly improve our creations. Sometimes, however, this means imposing measures of control and conformance on each other. And some software developers (myself included) hate rules!
+
+So control and conformance is not trivial to introduce. Because not only must you convince yourself about the necessity of the measure you are introducing, but you need to be able to convince everybody else—and this is on top of the actual work of implementing the measure itself! For me, this is daunting. It is risky. What if I am wrong? Did I waste everyone's time?
+
+On the other hand, little or no control or conformance is an absolute nightmare. How terrifying and wildly irresponsible is it, to have allowed your code to go so far out of your control, that you don't know what it's going to do when you change a line of code?
+
+So, to make this easier, I will present a concept from sociology called the Obligatory Passage Point.
+
+
+And by socio-technical norms I mean the rules and requirements that apply to both the social and technical aspects of software development. And these norms are essential to our craft. And as we shall see, it may be empirically provable to be vital to the success of any technical project.
+
+But imposing control and conformance on other software craftspersons may be challanging, even with empirical evidence proving the necessity of the measure. I think this is natural—software developers hate rules!
+
+
+
+
+
+So, examples of these means of control norms are plenty, we know them from our own technical projects in SIB:
+- kanban and issue tracker (though I think Kristian may be about to change that)
+- continous integration, we want developers to conform to a set of requirements: that code integrates cleanly, tests should pass, etc.
+- source control management: code is controlled by use of git, and no software can (practically) be deployed without it
+- unit tests, good software design, etc, etc.
+
+However, I want to focus on measures that directly control the dependency between authors of code. Examples of these measures are also well known to us, and extensively used:
+- APIs,
+- interfaces,
+- facades,
+- modularization,
+and so on.
+
+Some means in this category, less used by us (or at least me) to control the other developers e.g. in the same team. However, these are extensively used by developers of software that we use and depend on:
+- plug-in systems, we immediately think of more mainstream software like Firefox, <your favorite editor> plugins, event loop APIs
+- event loops/PUB-SUB-type patterns, we may have used these when using Qt, boost signals, etc  
+- domain specific languages (DSL)
+- Model-View-Controller
+- etc
+
+---
+
+Now, when to use these latter means of control and conformance, has been a major struggle for me. Because they do impose all kinds of inconvenience for the consumer—at first—but will eventually, maybe, provide value.
+
+
+
+We all want to become better developers. And for me, for as long as I have been working with software development, a major struggle has been: when should I or must I introduce measures of control and conformance, of:
+    - internal developers
+    - external developers
+
+By control, I mean that for example I develop a module and for you to use that module, you have to call this particular method. Conformance means you use this particular method as expected. 
+
+This level of control and conformance is easy to justify. I create an interface which you must use, so that my implementation can vary without it affecting you. This is universially accepted by most software craftspersons. So are others:
+    - basic software design, use the units of the programming language (classes, functions, variables) to create good code 
+    - TDD: all code must be tested
+    - continuous integration, we force developers to make sure their code integrates according to some set of requirements (no conflicts, tests pass, etc)
+    - use an issue tracker, all things causing a change in the software artifact (i.e. running program, deployment, source code, etc), must be triggered by some issue
+
+ Higher-order means of control, however, may be harder to introduce. For example, the plugin system. The plugin system means at least two layers of interfaces for the consumer. The plugin system has one interface, and the underlying interfaces that the plugin system itself uses. 
+
+
+
+
+has been when to introduce code with a structure that resembles plugins, extensible component-based systems, or similar styles. How can I justify forcing you, either an internal or external developer, or a power user, to conform to, and be controlled by my code?
+
+We all want to become better craftspersons. For me, one of the major recurring problems, has been the use of higher order design patterns.
+
+  
 
 
 What is OPP:
@@ -51,6 +217,3 @@ The term obligatory passage point is lent from [Actor-Network Theory (ANT)]. Whe
  - konklusjon fra de Souza?
 
 So, with this in mind, how often do we consider the code to be an instrument of control and conformance?
-
-
-
