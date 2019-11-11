@@ -33,22 +33,34 @@ def here_is_the_database_connection_please_do_whatever_you_want(self):
 +++
 #### Lack of conformance:
 
-(At least beyond social contract)
-
 ```python
 def execute_arbitrary_sql(sql_string):
-    …  # please no heavy joins
+    …  # please no heavy joins... plz
 ```
 ---
 #### A shift in control (from user to author)
 
-
 @ul
-* Except if API is fundamentally flawed
-* Radical refactor
+* Higher abstraction level
+* Conformance to norms simply by use of API
+@ulend
+---
+#### The _Variation Behind Interface_-principle
+@ul
+* Protect code integrity
+* Things change fast in this biz
+@ulend
+---
+#### Disruptive shifts of power
+
+Justified by principle alone?
+@ul
+* Will cause conflict
+* Might need more juice in your argument
 @ulend
 ---
 
+---
 ## Takk
 ---
 +++
