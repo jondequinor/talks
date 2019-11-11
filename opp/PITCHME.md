@@ -10,16 +10,16 @@ _(cc-by-sa 4.0)_
 * Rot is quite common!
 @ulend
 
----
++++
 Though common, _wildly irresponsible_
----
++++
 Simply refactor and add tests
 
 @ul
 * Except if API is fundamentally flawed
 * Radical refactor
 @ulend
----
++++
 The Programmer's fifth oath:
 
 `I will fearlessly and relentlessly improve my creations at every opportunity. I will never degrade them.`
@@ -34,23 +34,23 @@ def here_is_the_database_connection_please_do_whatever_you_want(self):
 #### Lack of conformance:
 
 ```python
-def execute_arbitrary_sql(sql_string):
+def execute_arbitrary_sql(self, sql_string):
     …  # please no heavy joins... plz
 ```
----
++++
 #### A shift in control (from user to author)
 
 @ul
 * Higher abstraction level
 * Conformance to norms simply by use of API
 @ulend
----
++++
 #### The _Variation Behind Interface_-principle
 @ul
 * Protect code integrity
 * Things change fast in this biz
 @ulend
----
++++
 #### Disruptive shifts of power
 
 Justified by principle alone?
@@ -59,7 +59,29 @@ Justified by principle alone?
 * Might need more juice in your argument
 @ulend
 ---
+#### An argument for radical refactoring
 
+@ul
+* Studied Python's source code
+* Narrative: openness, collaboration, participation, access
+* Practice: closedness, regulation
+* Control and conformance through code
+* … of both technical and social aspects
+* Emergent
+@ulend
+---
+Actor—Network theory
+@ol
+* _Everything_ is part of the network.
+@ul
+* No external forces forces
+* Fibrous, messy looking
+@ulend
+* Human and non-human _actants_
+@ul
+* `[jenkins, some_module, you, me, product_owner, team_lead]  # list of actants
+@ulend
+@olend
 ---
 ## Takk
 ---
