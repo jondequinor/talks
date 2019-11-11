@@ -90,11 +90,15 @@ def list_actants():
 ```
 ---
 #### The Obligatory Passage Point
----?image=img/generic_opp.jpg&size=auto 50%&position=bottom
+
+![OPP](https://raw.githubusercontent.com/jondequinor/talks/master/opp/img/generic_opp.jpg)
 
 ---
 #### The Obligatory Passage Point
- foo x b
+
+![OPP](https://raw.githubusercontent.com/jondequinor/talks/master/opp/img/generic_opp.jpg)
+
+foo x b
 ---
 ## Takk
 ---
