@@ -89,16 +89,18 @@ def list_actants():
     return [jenkins, some_module, you, me, product_owner, team_lead]
 ```
 ---
-#### The Obligatory Passage Point
+#### The Obligatory Passage Point (OPP)
 
 ![OPP](https://raw.githubusercontent.com/jondequinor/talks/master/opp/img/generic_opp.jpg)
 
 ---
-#### The Obligatory Passage Point
+#### The Obligatory Passage Point (OPP)
 
 ![OPP](https://raw.githubusercontent.com/jondequinor/talks/master/opp/img/generic_opp.jpg)
 
-foo x b
+Actant needs to go through in order to score goal
+---
+
 ---
 ## Takk
 ---
