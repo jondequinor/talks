@@ -90,7 +90,7 @@ def list_actants():
 ```
 ---
 #### The Obligatory Passage Point
-?image=img/generic_opp.jpg&size=auto 50%&position=bottom
+---?image=img/generic_opp.jpg&size=auto 50%&position=bottom
 
 ---
 #### The Obligatory Passage Point
