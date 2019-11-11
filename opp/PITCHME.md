@@ -71,7 +71,7 @@ Justified by principle alone?
 @ulend
 ---
 #### Actor–network theory
-1. _Everything_ is part of the network.
+1\. _Everything_ is part of the network.
 
 @ul
 * No external forces forces
@@ -80,14 +80,21 @@ Justified by principle alone?
 
 +++
 #### Actor–network theory
-2. Insistence on human and non-human _actants_
-@ul
-* `[jenkins, some_module, you, me, product_owner, team_lead]  # list of actants`
-@ulend
+2\. Insistence on human and non-human _actants_
++++
+#### Actor–network theory
+2\. Insistence on human and non-human _actants_
+```python
+def list_actants():
+    return [jenkins, some_module, you, me, product_owner, team_lead]
+```
 ---
 #### The Obligatory Passage Point
+?image=img/generic_opp.jpg&size=auto 50%&position=bottom
 
----?image=img/generic_opp.jpg&size=auto 50%&position=bottom
+---
+#### The Obligatory Passage Point
+ foo x b
 ---
 ## Takk
 ---
