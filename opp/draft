@@ -37,23 +37,23 @@ Imagine that you are tasked with fixing a bug inside some API. It requires you t
 
 Uncle Bob Martin, the famous software craftsman, he describes this, and says that: "to have allowed this code to go so far beyond your control, that you don't know what it's going to do when you change it, is _wildly_ irresponsible".
 
-So, how do you take back control? We refactor and add tests. This is an essential part of being a software craftsperson. But in some cases, refactoring and tests aren't enough. What if the reason for the code's rot, is that the API is being used in ways that you never originally intended? (And I mean in a bad way.) Maybe the API leaked too much abstraction? Or that it was simply at the wrong level of abstraction from the start. To fix this, you cannot simply move a couple of methods, or split some classes. In these cases, the API has to fundamentally change.
+So, how do you take back control? We refactor and add tests. This is actually an essential part of being a software craftsperson. But in some cases, refactoring and tests aren't enough. What if the reason for the code's rot, is that the API is being used in ways that you never originally intended, nor wanted. Maybe the API leaked too much abstraction? Or that it was simply at the wrong level of abstraction from the start. To fix this, you cannot simply move a couple of methods, or split some classes. In these cases, the API has to fundamentally change.
 
 Any software craftsman or craftswoman should constantly improve their creations. This is part of the programmer's oath. In this case it means API breakage, or deprecation. Or a completely new API.
 
-Now, what is the underlying reason for why you being reluctant to change the code in this API? One way of thinking about this, is to view it as a lack of control and conformance. In the case of an API at a too low abstraction level, you have no control over how these low level abstractions are used together.
+Now, what is the underlying reason for why you being reluctant to change the code in this API? One way of thinking about this, is to view it as a lack of control and conformance. In the case of an API at a too low abstraction level, you have no control over how the parts of your API are used together.
 
-If you have rules and requirements, or norms, for the use of this API, and there is nothing in the API that produces conformance — any conformance must be assured through social contract. Maybe you've told your users that "no don't use the API in this way, that will slow the database down" or "please use these methods only on these data" and so on. This is futile in the long run, and more the code will rot even further.
+If you have rules and requirements, or norms, for the use of this API, and there is nothing in the API that produces conformance of these norms — any conformance must be assured through social contract. Maybe you've told your users that "no don't use the API in this way, that will slow the database down" or "please use these methods only on these data" and so on. This is futile in the long run, and the code will rot even further.
 
 A major shift of control away from the API users has to take place. In your case, with the wrong abstraction level, you need to export code at a higher abstraction level. This means less concrete classes and methods, maybe entirely new concepts and datas.
 
 With this major shift of control from the user to you, the user can no longer do "everything", but perhaps just the required things. The API user also has to conform to your new norms. For example, since you were worried the user would crash the database with inefficient queries, you have now written all the queries for them. They can no longer simply write their own queries. You no longer have to go to their desks and tell them anything. They conform simply by using your API.
 
-This way, your code's integrity can be protected across changes in the implementation. You might change the database system, you might drastically change the underlying data structure, and so on. These points of variation are predictable in our line of work. This is the principle of _variation behind interface_. It is the superclass of a lot of programming patterns.
+This way, your code's integrity can be protected across changes in the implementation, thus allowing you to clean your code. You might change the database system, you might drastically change the underlying data structure, and so on. These points of variation are predictable in our line of work. This is the principle of _variation behind interface_. It is the superclass of a lot of programming patterns.
 
 But is this enough to justify this major shift of control? Can you justify API breakage on this principle alone? You might face some resistance. The API users might view this change as a waste of their time. Because they currently use your API, and they probably have no problems with it. Sure, it's difficult at times finding the correct buttons to push to make anything work, but it works—right now! And it is flexible. They can do whatever they want. Now you want to reduce their power and freedom for the sake of this principle? 
 
-Luckily, there might be another way to justify the need for production of control and conformance of these socio-technical norms.
+Luckily, there might be another way to justify such major changes.
 
 This other way, is an idea taken from a 20 year old sociology paper. A group of sociologists looked at successful open source software projects, one of them Python. And asked: what can we tell about the way these open source developers work, by simply looking at the code?
 
@@ -61,23 +61,26 @@ And they found that, even though the narrative of these projects usually was abo
 
 And this was not just at the technical level—the source code controlled and constrained their development processes too. The source code partitioned and managed activities by the use of components, modules. It also limited access to parts of code using higher order concepts like plugins, publish/subscribe patterns, domain specific languages, and so on.
 
-And the group found that these structures were emergent. Meaning that the structures were not formally defined, or deliberately created in these projects. This is interesting in light of the open source movement's focus on participation and accessibility.
+And the group found that these structures in the source code were emergent. Meaning that the structures were not formally defined, or deliberately created in these projects. This is interesting in light of the open source movement's focus on participation and accessibility. It is a huge contrast.
 
-They structures were seemingly just a necessity in order to be successful.
+These structures were seemingly just a necessity in order to be successful.
 
 And trying to understand how this dynamic, they turned to Actor-Network theory (ANT). So, first, what roughly is ANT?
 
 ANT can be summarized as follows:
 
-1) In ANT, _everything_ in the area of interest, in this case, a software development project, is in the network. Nothing exists outside the network. So this is not a clean graph that we might know from computer science. It is a fibrous, messy thing.
+1) In ANT, _everything_ in the area of interest, in this case, a software development project, is in the network. Nothing exists outside the network. So this is not a clean graph that we might know from school. It is a fibrous, messy thing.
 2) ANT insists that humans, as well as non-humans, for example, code modules, deployment processes, etc, can be actors in the network. Looking through the lens of ANT, a code module and a developer can have play the same part.
 
 So looking at for example the Python source code, through the lens of ANT, the sociologists found a bunch of what they called _obligatory passage points_ (OPP). OPP are narrowings of the network that some actor has to go through in order to achieve a result. 
 
-To the sociologists, this was the exact same way that scientific progress was made. They suggest that the social processes that shape scientific practice, are the creation of these networks that includes these obligatory passage points. Examples of these obligatory passage points could be: scientific journals, sensitive lab equipment, experimental verification, and solid theoretical foundations. These obligatory passage points stabilize scientific results, and establishes the reliability of observations, results and conclusions.
+To the sociologists, this is the exact same way that they think scientific progress is made. They suggest that the social processes that shape scientific practice, are the creation of these networks that includes obligatory passage points. Examples of these obligatory passage points could be: scientific journals, sensitive lab equipment, experimental verification, and solid theoretical foundations. These obligatory passage points stabilize scientific results, and establishes the reliability of observations, results and conclusions.
 
-Back to your API. How can you use the obligatory passage point to justify the rewrite of this API?
+And they found the same structures in the Python source code. 
 
+So it seems that these obligatory passage points are a necessary ingredient to success in software development projects and science!
+
+<conclusions TBD>
 
 
 
