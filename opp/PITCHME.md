@@ -70,18 +70,24 @@ Justified by principle alone?
 * Emergent
 @ulend
 ---
-Actor—Network theory
-@ol
-* _Everything_ is part of the network.
+#### Actor–network theory
+1. _Everything_ is part of the network.
+
 @ul
 * No external forces forces
 * Fibrous, messy looking
 @ulend
-* Human and non-human _actants_
+
++++
+#### Actor–network theory
+2. Insistence on human and non-human _actants_
 @ul
-* `[jenkins, some_module, you, me, product_owner, team_lead]  # list of actants
+* `[jenkins, some_module, you, me, product_owner, team_lead]  # list of actants`
 @ulend
-@olend
+---
+#### The Obligatory Passage Point
+
+---?image=img/generic_opp.jpg&size=auto 50%&position=bottom
 ---
 ## Takk
 ---
