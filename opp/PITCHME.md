@@ -7,10 +7,8 @@ _(cc-by-sa 4.0)_
 +++
 #### A simple bug fix in the API…
 
-@ul
 * Not so simple if code rotten
 * Quite common!
-@ulend
 ---
 code far beyond your control == _wildly irresponsible_
 ---
@@ -78,10 +76,8 @@ In successful scientific practice…
 +++
 #### Alternative justification for radical refactoring
 Success only possible 
-@ul
 * if all sources of complexity is managed (not just technical)
 * everyone has sufficient appreciation of both social and technical necessity for control and conformance
-@ulend
 ---
 ## Takk
 ---
