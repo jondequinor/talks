@@ -20,42 +20,35 @@ code far beyond your control == _wildly irresponsible_
 @ul
 * Refactor. Add tests.
 * Except if API fundamentally broken.
+* Not simply a technical issue.
 * Might require radical refactor.
 @ulend
 ---
 #### The Programmer's Fifth Oath
 @quote[I will fearlessly and relentlessly improve my creations at every opportunity. I will never degrade them.]
 ---
-#### Underlying reason
+#### Actual reason for rot
 +++
-#### Underlying reason
+#### Actual reason for rot
 @ul
-* Lack of control
-* Lack of measure of conformance to rules, regulations (norms)
-* Socio-technical problem
+* Lack of control of both social and technical aspects
+* Lack of measure of conformance to both social and technical rules, regulations (norms)
+* Is a socio-technical problem
 @ulend
 ---
-#### Benefits with radical refactor
+#### Shift of control, measures to ensure conformance
+---
+#### Radical refactor
 +++
-#### Benefits with radical refactor
+#### Radical refactor
 @ul
-* Takes control back
-* Conformance to norms baked in
-* _Variation behind interface_ principle. I.e. information hiding.
+* Maybe not justifiable on technical design principle alone
+* "It works now, though! Why change it?"
 @ulend
 ---
-#### Good enough reason?
+#### Need another way to justify this
 +++
-#### Good enough reason?
-@ul
-* Might face resistance
-* Sure, it's a bit difficult, but…
-* Works now! Today! And is flexible!
-@ulend
----
-#### Another way to justify radical refactor
-+++
-#### Another way to justify radical refactor
+#### Need another way to justify this
 @ul
 * Sociologists looked at Python
 * Found strict management of social and technical complexity
