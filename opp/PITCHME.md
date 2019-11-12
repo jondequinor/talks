@@ -14,7 +14,7 @@ code far beyond your control == _wildly irresponsible_
 * Refactor. Add tests.
 * Except if API fundamentally broken.
 * Not simply a technical issue.
-* Might require radical refactor.
+* Might require radical refactor. (_Radical_: of or pertaining to the root)
 ---
 #### The Programmer's Fifth Oath
 @quote[I will fearlessly and relentlessly improve my creations at every opportunity. I will never degrade them.]

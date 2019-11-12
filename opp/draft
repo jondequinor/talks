@@ -88,7 +88,11 @@ So back to our API. We need to radically change it. Why?
 
 The original argument, was about reducing complexity in the code by conforming to a design principle. But as we've seen, complexity can just as well come from anywhere—including the social realm.
 
-So the alternative way to justify to the world that radical refactoring is required, is to explain that without sufficient appreciation and management of the complex relationship between technical and social aspects of software development, we will not be successful.
+So the alternative way to justify to the world that radical refactoring is required, is that without regarding the complexity of social and technical aspects of software development
+
+without these obligatory passage points
+
+we simply cannot be successful
 
 Thank you!
 
