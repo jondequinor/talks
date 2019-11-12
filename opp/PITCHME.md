@@ -8,7 +8,7 @@ _(cc-by-sa 4.0)_
 #### A simple bug fix in the API…
 
 @ul
-* Except if code is rotten
+* Not so simple if code rotten
 * Quite common!
 @ulend
 ---
@@ -20,13 +20,11 @@ code far beyond your control == _wildly irresponsible_
 @ul
 * Refactor. Add tests.
 * Except if API fundamentally broken.
+* Might require radical refactor.
 @ulend
 ---
 #### The Programmer's Fifth Oath
 @quote[I will fearlessly and relentlessly improve my creations at every opportunity. I will never degrade them.]
----
-#### Radical refactor
-Might require API breakage/deprecation, or new API
 ---
 #### Underlying reason
 +++
