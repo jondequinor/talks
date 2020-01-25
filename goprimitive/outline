@@ -1,0 +1,22 @@
+quickly:
+
+    what is go
+        a minimalist programming language created by among others, Ken Thompson, one of the creators of Unix, and creator of B, C's predecessor.
+        strongly and statically typed, object oriented (but no inheritance, composition only)
+        the spec is 50 pages, and an easy read
+        for me, it is a mix between c++ and python. Fast, powerful—yet simple and readable.
+
+    what is concurrency
+        in go concurrency has special meaning
+            - design your program as a collection of independent processes
+            - design these processes to eventually run in parallel
+            - design your code such that the outcome is always the same
+            
+        the way go decided to do concurrency, is based on the ideas of CSP
+            - each process is built for sequential execution
+            - data is communicated between processes via _channels_, no shared state
+            - scaling means adding more processes
+
+So, what are the primitives
+
+    the `go` keyword
