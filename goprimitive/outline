@@ -1,22 +1,71 @@
-quickly:
 
-    what is go
-        a minimalist programming language created by among others, Ken Thompson, one of the creators of Unix, and creator of B, C's predecessor.
-        strongly and statically typed, object oriented (but no inheritance, composition only)
-        the spec is 50 pages, and an easy read
-        for me, it is a mix between c++ and python. Fast, powerful—yet simple and readable.
+what is go:
+    a minimalist programming language created by the same guys who brought you unix
+    strongly and statically typed, object oriented
+    the language spec is 50 pages, and an easy read. u can learn go by reading it (show spec)
+    
+    image: spec
+    
+    garbage collected
+    
+    code: hello-world
+    
+    for me, go is a mix between c++ and python. Fast, powerful—yet simple and readable.
+    it's perfect for servers, network communication, and other tasks that gain something from breaking it into autonomous activites
+    
+    enjoys broad adoption among heavyweights like google, uber, twitch
+    
+    i have used it intensively for two years, mainly creating pipelines for processing and storing massive amounts of data
+    so this presentation is going to be a bit biased towards my experience
 
-    what is concurrency
-        in go concurrency has special meaning
-            - design your program as a collection of independent processes
-            - design these processes to eventually run in parallel
-            - design your code such that the outcome is always the same
-            
-        the way go decided to do concurrency, is based on the ideas of CSP
-            - each process is built for sequential execution
-            - data is communicated between processes via _channels_, no shared state
-            - scaling means adding more processes
+What is concurrency:
+    the second part of the title, concurrency, what is it
+    Concurrent programming is splitting a program into autonomous activities
+    this is not parallellism, though. The activities are not guaranteed to run at the same time.
+    
+    so concurrent programming, in other words, is code running whenever it can—we don't know when
+    So concurrent programming is a good way to model the world.
+    Because the world in itself is concurrent.
+
+Two styles  
+    Go offers two styles of concurrent programming
+    the traditional shared memory multi threading
+    and communicating sequential processes (CSP)
+    we'll only talk about CSP today
 
 So, what are the primitives
+    a primitive is the most basic part of a programming language
+    the concurrency primitives in go, are
+     - go
+     - chan
+     - select
 
-    the `go` keyword
+    the go keyword will start a goroutine
+    a goroutines are the activities of a concurrent Go program
+    
+    ```
+    f() // wait for f to return
+    go f() // do not wait, create a goroutine where f is executed
+    ````
+
+    chan is what creates channels, this is the way the goroutines executing concurrently can talk to each other
+    
+    these are the main ingredients in CSP, concurrently executing sequential processes communicating via channels 
+
+    select is a multi-way concurrent control switch
+    we will come back to that
+
+Goroutines:
+    code: concurrent-hello
+    what will this little thing print out
+    we know that the inline function there will be scheduled to run at some point, so hopefully it will print hello world
+    it did not
+    so this is the way go is designed
+    when main returns, the program is terminated, the whole stack is torn down, including our sleeping goroutine
+
+    so how do we fix this?
+    there is no way for one goroutine to stop another, so our sleeping goroutine can't force main to wait
+
+    we need the two goroutines main and that inline function to talk to each other
+    this is done using channels
+    channels are the connections between our goroutines

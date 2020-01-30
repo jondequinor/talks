@@ -1,7 +1,384 @@
-### Control and conformance through Obligatory Passage Points
+## Go Concurrency Primitives
 
 _(cc-by-sa 4.0)_
 
++++
+### Why Go Concurrency Primitives
+@css[fragment](I really enjoyed working with concurrent Go)
+
+@css[fragment](I want to share some of my enthusiasm)
+
+@css[fragment](And possibly explain why)
+
 ---
-#### A simple bug fix in the API…
-<iframe width="560" height="315" src="http://localhost:8080" frameborder="0" allowfullscreen></iframe> 
+
+@snap[midpoint]
+Background
+@snapend
+
+---
+
+@snap[north-west]
+### What is Go
+
+@css[text-08](Minimalist language, language spec is short and readable)
+
+@css[fragment text-08](Compiled, strong/static typing, garbage collected)
+
+@css[fragment text-08](Strongly opinionated)
+
+@css[fragment text-08](No generics, not very enterprise friendly)
+
+@css[fragment text-08](Fast, powerful—simple, readable)
+
+@css[fragment text-11](You get to run cool concurrent code @emoji[fragment em-sunglasses]) 
+@snapend
+
+@snap[east]
+
+![fragment, rotate=60deg](https://i.imgur.com/GbBQDBA.png)
+@snapend
+
++++
+
+@code[golang](goprimitive/codes/hello/hello-world.go)
+
+@[1](Declares what package this belongs to)
+@[3](Familiar import statement)
+@[5-7](As expected)
+
++++?color=#ffffdd
+
+<iframe width="100%" height="315" src="http://localhost:8080/p/oXGayDtoLPh" frameborder="0" allowfullscreen></iframe>
+
+---
+
+
+### What is concurrency (in CS)
+
+@css[fragment](Composition of independently executing activities)
+
+@css[fragment](Not parallelism, which is the simultaneous execution)
+
+![fragment, filter=invert](https://msl-network.readthedocs.io/en/latest/_images/concurrency_vs_parallelism.png)
+
+@css[fragment text-08](So concurrency is about structure, parallelism is about execution)
+
++++
+
+### What is concurrency (in Go)
+
+@css[fragment text-07](Two styles:) @css[fragment text-07](shared-memory multi threading) @css[fragment text-07](and communicating sequential processes or _CSP_)
+
+![fragment, filter=invert,height=300](https://ptolemy.berkeley.edu/publications/papers/99/HMAD/html/images/csp1.gif)
+
+@css[fragment text-07](In CSP a program is a parallel composition of processes with no shared state)
+
+@css[fragment text-07](The processes communicate and synchronize using channels)
+
++++
+
+@snap[midpoint]
+So how does Go do that?
+@snapend
+
+---
+
+### Primitives
+
+```go fragment
+go // the ability to execute functions concurrently
+````
+
+```go fragment
+chan // allows communication between concurrent processes
+````
+
+```go fragment
+select // a multi-way concurrent control switch
+````
+
++++
+
+#### Goroutines
+
+```go fragment
+f() // Call `f()`; wait for it to return
+```
+```go fragment
+go f() // Creates a new goroutine, no waiting
+```
+@css[fragment text-08](_Goroutines_ are independently executing functions. Think threads.)
+
+@css[fragment text-08](They are really _cheap_, but not free)
+
+@css[fragment text-08](Goroutines are really _coroutines_)
+
+@css[fragment text-08](Meaning the scheduler in Go is a _cooperating scheduler_)
+
+@css[fragment text-08](So scheduling decisions are made based on _user-space events_ i.e. `go`, `chan`, `select`, `io`, etc…)
+
++++
+
+A concurrent Hello World program
+
+@code[golang](goprimitive/codes/concurrent-hello/concurrent-hello.go)
+
+@[9-12](Creates a goroutine that calls this _anonymous function_ created using a _function literal_)
+@[14](Runs in the `main` goroutine)
+
++++?color=#ffffdd
+
+@snap[north-west span-50]
+<iframe width="750" height="400" src="http://localhost:8080/p/9lqafTHt4_x" frameborder="0" allowfullscreen></iframe> 
+@snapend
+
+@snap[north-east span-50 text-left]
+@css[text-black](what will this print)
+@css[fragment text-black](okay so that did not work)
+@css[fragment text-black](when `main` returns, the program is terminated)
+@css[fragment text-black](how do we fix this?)
+@snapend
+
+@snap[south]
+@css[fragment text-black](the `main` goroutine and the anonymous goroutine needs synchronization)
+@css[fragment text-black](but how???)
+@snapend
+
+---
+
+#### Channels
+
+```go
+ch := make(chan int) // ch is type 'chan int'
+```
+
+```go
+ch <- x // send statement
+```
+
+```go
+x = <-ch // receive expression in an assignment
+```
+
+```go
+<-ch // recieve statement, discarded
+```
+
+
+
++++
+
+@snap[north]
+#### Using channels
+@snapend
+
+@snap[west code-power span-50]
+@code[golang zoom-08](goprimitive/codes/concurrent-hello-fixed/concurrent-hello-fixed.go)
+@snapend
+
+@snap[east span-40 text-left]
+@[9](We make a `chan string` channel capable of communicating strings between goroutines)
+@[13](The other goroutine sends `World`)
+@[16](`main` will wait here until it will sync up with the anonymous function)
+@[7]()
+@[0]()
+@snapend
+
++++?color=#ffffdd
+
+<iframe width="100%" height="500" src="http://localhost:8080/p/7YGyI0T1R1W" frameborder="0" allowfullscreen></iframe>
+
++++
+
+#### Closing and ranging
+
+@css[text-07](Channels can be `closed`)
+
+```go
+// closing a channel indicates to all receivers that nothing more
+// will be sent
+close(ch)
+
+// receivers can test this like so. If not ok, the channel is closed.
+_, ok := <-ch
+```
+
+@css[fragment text-07](It is also possible to loop over a channel until it is closed)
+
+```go fragment
+for x := range ch { // not the lack of receive expression
+    // do something with x
+}
+// ch is now closed
+```
+
++++
+
+#### Channel axioms
+
+@snap[midpoint span-100 text-center]
+@ol
+1. A send to a nil channel blocks forever
+1. A receive from a nil channel blocks forever
+1. A send to a closed channel panics
+1. A receive from a closed channel returns the zero value immediately
+@olend
+@snapend
+
+---
+
+### Select
+
+@css[fragment, text-08](Let's you control your program's behaviour by looking at multiple channels at once)
+
+@css[fragment, text-08](It is like a switch statement, but for send/receive operations on channels)
+
++++
+
+#### An example
+
+@code[golang](goprimitive/codes/select.go)
+
+@snap[east span-40  text-left]
+@[2](This case is selected if there's anything on the `ch` channel)
+@[3]()
+@[4](This case is selected if somebody is ready to receive on `helloChan`)
+@[5]()
+@[6](This case is selected if `ch` is empty and nobody is receiving on `helloChan`)
+@[7]()
+@[1-19](Note that if both `ch` is populated, and somebody is read for receiving on `helloChan`, it is random which is chosen)
+@snapend
+
++++?color=#ffffdd
+
+<iframe width="100%" height="500" src="http://localhost:8080/p/FAI7AiPExuG" frameborder="0" allowfullscreen></iframe>
+
++++
+
+#### Putting it all together
+
+@snap[west span-50]
+```go zoom-08
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+
+	c1 := make(chan string)
+	c2 := make(chan string)
+
+	go func() {
+		time.Sleep(1 * time.Second)
+		c1 <- "one"
+	}()
+
+```
+@snapend
+
+@snap[east span-50]
+```go zoom-08
+	go func() {
+		time.Sleep(2 * time.Second)
+		c2 <- "two"
+    }()
+    
+    for i := 0; i < 2; i++ {
+		select {
+		case msg1 := <-c1:
+			fmt.Println("received", msg1)
+		case msg2 := <-c2:
+			fmt.Println("received", msg2)
+		}
+	}
+}
+```
+@snapend
+
++++?color=#ffffdd
+
+<iframe width="100%" height="500" src="http://localhost:8080/p/SvOYelqbZeC" frameborder="0" allowfullscreen></iframe>
+
+---
+
+### Pipelines
+
+@css[fragment text-07](Channels can be used to connect goroutines together)
+
+@css[fragment text-07](The output of one, is the input of another)
+
+![fragment](https://i.imgur.com/jAN13mS.png)
+
+@css[fragment text-07](My most used concurrency pattern)
+
+@css[fragment text-07](Excellent for data processing where you want to extend/change parts over time)
+
++++
+
+#### Squarer program
+```go
+package main
+
+import "fmt"
+
+func main() {
+	naturals := make(chan int)
+	squares := make(chan int)
+
+	// Counter
+	go func() {
+		for x := 0; x < 100; x++ {
+			naturals <- x
+		}
+		close(naturals)
+	}()
+```
+
++++
+
+```go
+	// Squarer
+	go func() {
+		for x := range naturals {
+			squares <- x * x
+		}
+		close(squares)
+	}()
+
+	// Printer (in main goroutine)
+	for x := range squares {
+		fmt.Println(x)
+	}
+}
+```
+
+@css[fragment text-07](Is of course far too trivial to warrant its own goroutines)
+
+@css[fragment text-07](But it can help illustrate how useful pipelines in go are)
+
++++?color=#ffffdd
+
+<iframe width="100%" height="500" src="http://localhost:8080/p/KzQ-VLkr8T3" frameborder="0" allowfullscreen></iframe>
+
+---
+@snap[north]
+### Conclusion
+@snapend
+
+@snap[midpoint text-center span-100]
+@ul[](false)
+- Go supports a neat concurrency model
+- (Can be) easy and fun to reason about complex concurrent programming
+- Arguably different/better than parallelism—and shared memory multithreading
+@ulend
+@snapend
+
+---
+
+@snap[midpoint]
+## thanks
+@snapend

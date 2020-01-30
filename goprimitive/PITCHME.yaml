@@ -1,0 +1,15 @@
+
+
+# PITCHME-DOT-YAML-SETTINGS-THEME-BUILDER-GENERATED-START
+theme            : template
+theme-background : [ "#485061" ]
+theme-headline   : [ "Raleway", "#E4E6F5", "none", "#E18BD1", "100", "130", "15" ]
+theme-byline     : [ "Raleway", "#E18BD1", "none", "#E5E6F5", "100", "120", "15" ]
+theme-text       : [ "Ubuntu", "#E5E6F5", "none", "#FF8EBA", "100", "110", "15" ]
+theme-links      : [ "#5289F7", "#5254F7" ]
+theme-code       : [ "Source Code Pro", "100", "120" ]
+highlight        : hybrid
+theme-controls   : [ "#C0C0C0" ]
+theme-margins    : [ "0", "15px" ]
+layout           : top-left
+# PITCHME-DOT-YAML-SETTINGS-THEME-BUILDER-GENERATED-END

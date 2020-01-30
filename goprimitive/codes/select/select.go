@@ -7,17 +7,23 @@ import (
 )
 
 func main() {
-	realizationsChan := make(chan int)
-	for i := 1; i <= 100; i++ {
-		go func(index int) {
-			time.Sleep(time.Duration(rand.Intn(3000)) * time.Millisecond)
 
-			realizationsChan <- index
-		}(i)
-	}
+	ch := make(chan int)
+	helloChan := make(chan string)
 
-	for i := 1; i <= 100; i++ {
-		fmt.Printf("r%d\n", <-realizationsChan)
+	go func() {
+		time.Sleep(time.Duration(rand.Intn(2)) * time.Second)
+		fmt.Println(<-helloChan)
+	}()
+
+	go func() {
+		time.Sleep(time.Duration(rand.Intn(2)) * time.Second)
+		ch <- 42
+	}()
+
+	select {
+	case x := <-ch:
+		fmt.Printf("Got %d.", x)
+	case helloChan <- "Hello World":
 	}
-	fmt.Println("\nDone!")
 }
