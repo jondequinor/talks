@@ -4,11 +4,11 @@ _(cc-by-sa 4.0)_
 
 +++
 ### Why Go Concurrency Primitives
-@css[fragment](I really enjoyed working with concurrent Go)
+@css[](I really enjoyed working with concurrent Go)
 
 @css[fragment](I want to share some of my enthusiasm)
 
-@css[fragment](And possibly explain why)
+@css[fragment](And possibly show you why I'm enthusiastic)
 
 ---
 
@@ -56,7 +56,7 @@ Background
 
 ### What is concurrency (in CS)
 
-@css[fragment](Composition of independently executing activities)
+@css[](Composition of independently executing activities)
 
 @css[fragment](Not parallelism, which is the simultaneous execution)
 
@@ -68,7 +68,7 @@ Background
 
 ### What is concurrency (in Go)
 
-@css[fragment text-07](Two styles:) @css[fragment text-07](shared-memory multi threading) @css[fragment text-07](and communicating sequential processes or _CSP_)
+@css[text-07](Two styles:) @css[fragment text-07](shared-memory multi threading) @css[fragment text-07](and communicating sequential processes or _CSP_)
 
 ![fragment, filter=invert,height=300](https://ptolemy.berkeley.edu/publications/papers/99/HMAD/html/images/csp1.gif)
 
@@ -134,10 +134,10 @@ A concurrent Hello World program
 @snapend
 
 @snap[north-east span-50 text-left]
-@css[text-black](what will this print)
-@css[fragment text-black](okay so that did not work)
-@css[fragment text-black](when `main` returns, the program is terminated)
-@css[fragment text-black](how do we fix this?)
+@css[text-black text-09](what will this print)
+@css[fragment text-black text-09](okay so that did not work @emoji[fragment em-crying_cat_face])
+@css[fragment text-black text-09](when `main` returns, the program is terminated)
+@css[fragment text-black text-09](how do we fix this?)
 @snapend
 
 @snap[south]
@@ -181,8 +181,7 @@ x = <-ch // receive expression in an assignment
 @[9](We make a `chan string` channel capable of communicating strings between goroutines)
 @[13](The other goroutine sends `World`)
 @[16](`main` will wait here until it will sync up with the anonymous function)
-@[7]()
-@[0]()
+@[0-100]
 @snapend
 
 +++?color=#ffffdd
@@ -230,17 +229,18 @@ for x := range ch { // not the lack of receive expression
 
 ### Select
 
-@css[fragment, text-08](Let's you control your program's behaviour by looking at multiple channels at once)
+@css[fragment text-08](Let's you control your program's behaviour by looking at multiple channels at once)
 
-@css[fragment, text-08](It is like a switch statement, but for send/receive operations on channels)
+@css[fragment text-08](The program asks "who is ready to communicate?")
 
-+++
+@css[fragment text-08](It is like a switch statement, but for send/receive operations on channels)
 
-#### An example
+@css[fragment text-08](Let's look at an example)
 
-@code[golang](goprimitive/codes/select.go)
+@code[golang fragment](goprimitive/codes/select.go)
 
-@snap[east span-40  text-left]
+@snap[south-east span-40 text-left]
+@[0-100]
 @[2](This case is selected if there's anything on the `ch` channel)
 @[3]()
 @[4](This case is selected if somebody is ready to receive on `helloChan`)
@@ -250,13 +250,9 @@ for x := range ch { // not the lack of receive expression
 @[1-19](Note that if both `ch` is populated, and somebody is read for receiving on `helloChan`, it is random which is chosen)
 @snapend
 
-+++?color=#ffffdd
-
-<iframe width="100%" height="500" src="http://localhost:8080/p/FAI7AiPExuG" frameborder="0" allowfullscreen></iframe>
-
 +++
 
-#### Putting it all together
+#### Another example
 
 @snap[west span-50]
 ```go zoom-08
@@ -313,13 +309,11 @@ func main() {
 
 ![fragment](https://i.imgur.com/jAN13mS.png)
 
-@css[fragment text-07](My most used concurrency pattern)
-
 @css[fragment text-07](Excellent for data processing where you want to extend/change parts over time)
 
 +++
 
-#### Squarer program
+#### Squarer program (1)
 ```go
 package main
 
@@ -339,6 +333,8 @@ func main() {
 ```
 
 +++
+
+#### Squarer program (2)
 
 ```go
 	// Squarer
@@ -364,6 +360,76 @@ func main() {
 
 <iframe width="100%" height="500" src="http://localhost:8080/p/KzQ-VLkr8T3" frameborder="0" allowfullscreen></iframe>
 
++++
+
+#### Squarer with fan-out (1)
+
+```go
+func counter(out chan<- int, target int) {
+	defer close(out)
+	for x := 0; x < target; x++ {
+		out <- x
+	}
+}
+```
+
+@snap[text-left]
+@[1](Channels are first-class citizens)
+@[1](And they can be directional)
+@[0-100]
+@snapend
+
++++
+
+#### Squarer with fan-out (2)
+
+```go
+func squarer(in <-chan int, out chan<- int) {
+	defer close(out)
+    wg := &sync.WaitGroup{}
+    for x := range in {
+        wg.Add(1)
+        go func(x int) {
+            time.Sleep(100 * time.Millisecond)
+            out <- x * x
+            wg.Done()
+        }(x)
+    }
+    wg.Wait()
+}
+```
+
+@snap[text-left]
+@[3](A `WaitGroup` can be used if we want to wait for multiple goroutines to finish)
+@[6](Here, the square operation is now going to be executed independently)
+@[12](Finally, when all square operations are done, `Wait` will return)
+@[0-100]
+@snapend
+
++++
+
+#### Squarer with fan-out (3)
+
+```go
+func main() {
+	naturals := make(chan int)
+	squares := make(chan int)
+
+	go counter(naturals, 1000000)
+	go squarer(naturals, squares, false)
+
+	for x := range squares {
+		fmt.Println(x)
+	}
+}
+```
+
++++?color=#ffffdd
+
+<iframe width="100%" height="500" src="http://localhost:8080/p/GPtRzGGwf-J" frameborder="0" allowfullscreen></iframe>
+
+
+
 ---
 @snap[north]
 ### Conclusion
@@ -371,8 +437,8 @@ func main() {
 
 @snap[midpoint text-center span-100]
 @ul[](false)
-- Go supports a neat concurrency model
-- (Can be) easy and fun to reason about complex concurrent programming
+- Go supports a neat concurrency model, makes it easy to express complex operations dealing with concurrent problemt
+- Fun to reason and talk about complex concurrent programming
 - Arguably different/better than parallelism—and shared memory multithreading
 @ulend
 @snapend
